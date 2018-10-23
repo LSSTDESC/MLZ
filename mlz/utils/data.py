@@ -4,7 +4,7 @@
 """
 __author__ = 'Matias Carrasco Kind'
 import numpy
-import pyfits as pf
+import astropy.io.fits as pf
 import random
 import copy
 from . import utils_mlz

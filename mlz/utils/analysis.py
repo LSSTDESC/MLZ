@@ -7,7 +7,7 @@ from numpy import *
 from . import utils_mlz
 import os, sys
 from scipy.stats import mode
-import pyfits as pf
+import astropy.io.fits as pf
 import datetime
 
 

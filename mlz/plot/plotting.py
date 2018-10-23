@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.gridspec as gridspec
 import random as rn
-import pyfits as pf
+import astropy.io.fits as pf
 
 path_src = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
 if not path_src in sys.path: sys.path.insert(1, path_src)

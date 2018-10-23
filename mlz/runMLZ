@@ -5,7 +5,7 @@ __version__ = '1.2'
 import copy
 import random as rn
 import os, sys
-import pyfits as pf
+import astropy.io.fits as pf
 import argparse
 
 try:

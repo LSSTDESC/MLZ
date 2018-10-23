@@ -4,7 +4,7 @@ from numpy import *
 from scipy.interpolate import interp1d as spl
 import sys, os
 import utils_mlz
-import pyfits as pf
+import astropy.io.fits as pf
 
 try:
     from mpi4py import MPI

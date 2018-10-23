@@ -8,7 +8,7 @@ from numpy import *
 from scipy import linalg as sla
 from scipy.optimize import leastsq
 from scipy import special
-import pyfits as pf
+import astropy.io.fits as pf
 
 
 def sparse_basis(dictionary, query_vec, n_basis, tolerance=None):

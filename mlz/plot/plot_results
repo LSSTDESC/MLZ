@@ -6,7 +6,7 @@ import matplotlib.cm as cm
 from scipy import optimize
 import os, sys
 import warnings
-import pyfits as pf
+import astropy.io.fits as pf
 
 warnings.simplefilter("ignore", RuntimeWarning)
 path_src = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
