@@ -21,18 +21,18 @@ T.plot_tree()
 #get a list of all branches
 branches = T.leaves()
 #print first branch, in this case left ,left, left, etc...
-print 'branch = ', branches[0]
+print('branch = ', branches[0])
 #print content of branch
 content = T.print_branch(branches[0])
-print 'branch content'
-print content
+print('branch content')
+print(content)
 #get prediction values for a test data (just an example on how to do it)
 #using a train objetc
 values = T.get_vals(X[10])
-print 'predicted values from tree'
-print values
-print
-print 'mean value from prediction', mean(values)
-print 'real value', Y[10]
+print('predicted values from tree')
+print(values)
+print()
+print('mean value from prediction', mean(values))
+print('real value', Y[10])
 #Note we use a shallow tree and only one tree for example purposes and there
 #is a random subsmaple so answer changes every time

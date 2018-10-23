@@ -48,7 +48,7 @@ class Qplot():
         T = T.item()
         if T.dict_dim == 'all':
             dd = {}
-            for i in xrange(len(self.Pars.att)):
+            for i in range(len(self.Pars.att)):
                 dd[self.Pars.att[i]] = {'ind': i}
         T.dict_dim = dd
         T.plot_tree(save_png=save_files, fileout=fileroot, path=path)
@@ -93,7 +93,7 @@ class Qplot():
         keys = []
         utils_mlz.printpz("Importance")
         utils_mlz.printpz("----------")
-        for k in xrange(len(self.Pars.att)):
+        for k in range(len(self.Pars.att)):
             kk = self.Pars.att[k]
             keys.append(kk)
             filev = froot + '_' + kk + '.' + filenum + '.mlz'
@@ -111,7 +111,7 @@ class Qplot():
         linew = ','.join(keys)
         linew = '#' + linew + '\n'
         FF.write(linew)
-        for i in xrange(len(ki)):
+        for i in range(len(ki)):
             linew = '%.8f\n' % Im0[i]
             FF.write(linew)
         FF.close()
@@ -141,7 +141,7 @@ class Qplot():
         Im0 = zeros((Nzb, len(ki)))
         Im1 = zeros((Nzb, len(ki)))
         keys = []
-        for k in xrange(len(self.Pars.att)):
+        for k in range(len(self.Pars.att)):
             kk = self.Pars.att[k]
             keys.append(kk)
             filev = froot + '_' + kk + '.' + filenum + '.mlz'
@@ -290,7 +290,7 @@ class Qplot():
         F.close()
 
         if kgal < 0:
-            k = rn.sample(xrange(len(PO) - 1), 1)[0]
+            k = rn.sample(range(len(PO) - 1), 1)[0]
         else:
             k = kgal
 
@@ -310,7 +310,7 @@ class Qplot():
 
         plt.figure()
         AD = pdf_storage.create_voigt_dict(z, head['mu'], head['Nmu'], head['sig'], head['Nsig'], head['Nv'])
-        sp_ind = array(map(pdf_storage.get_N, P[k]))
+        sp_ind = array(list(map(pdf_storage.get_N, P[k])))
         spi = sp_ind[:, 0]
         Dind2 = sp_ind[:, 1]
         AA = linspace(0, 1, head['Ncoef'])
@@ -321,7 +321,7 @@ class Qplot():
 
         pdfr = dot(AD, delta)
         plt.plot(z, pdfr / sum(pdfr), 'r-', lw=2, label='Sparse Rep.')
-        for i in xrange(len(Dind2)):
+        for i in range(len(Dind2)):
             plt.plot(z, AD[:, Dind2[i]] * vals[i] / sum(pdfr), 'k-')
         plt.plot(z, AD[:, Dind2[0]] * vals[0] / sum(pdfr), 'k-', label='bases')
         plt.xlabel('redshift')

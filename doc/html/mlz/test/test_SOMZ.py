@@ -21,9 +21,9 @@ M.plot_map()
 #get prediction values for a test data (just an example on how to do it)
 #using a train objetc
 values = M.get_vals(X[10])
-print
-print 'mean value from prediction (hex)', mean(values)
-print 'real value', Y[10]
+print()
+print('mean value from prediction (hex)', mean(values))
+print('real value', Y[10])
 #Note we use a low-resoution map and only one map for example purposes
 #evaluate other column, for example the 'g' magnitude
 M.evaluate_map(inputY=X[:,1])
@@ -41,8 +41,8 @@ M.plot_map()
 #get prediction values for a test data (just an example on how to do it)
 #using a train objetc
 values = M.get_vals(X[10])
-print
-print 'mean value from prediction (sphere)', mean(values)
-print 'real value', Y[10]
+print()
+print('mean value from prediction (sphere)', mean(values))
+print('real value', Y[10])
 
 

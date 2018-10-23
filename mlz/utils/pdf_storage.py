@@ -34,7 +34,7 @@ def sparse_basis(dictionary, query_vec, n_basis, tolerance=None):
     L = zeros((n_basis, n_basis), dtype=dictionary.dtype)
     L[0, 0] = 1.
 
-    for n_active in xrange(n_basis):
+    for n_active in range(n_basis):
         lam = argmax(abs(dot(dictionary.T, res)))
         if lam < n_active or alpha[lam] ** 2 < machine_eps:
             n_active -= 1
@@ -45,7 +45,7 @@ def sparse_basis(dictionary, query_vec, n_basis, tolerance=None):
             sla.solve_triangular(L[:n_active, :n_active], L[n_active, :n_active], lower=True, overwrite_b=True)
             v = linalg.norm(L[n_active, :n_active]) ** 2
             if 1 - v <= machine_eps:
-                print "Selected basis are dependent or normed are not unity"
+                print("Selected basis are dependent or normed are not unity")
                 break
             L[n_active, n_active] = sqrt(1 - v)
         dictionary[:, [n_active, lam]] = dictionary[:, [lam, n_active]]
@@ -82,7 +82,7 @@ def reconstruct_pdf(index, vals, zfine, mu, Nmu, sigma, Nsigma, cut=1.e-5):
     zmid = linspace(mu[0], mu[1], Nmu)
     sig = linspace(sigma[0], sigma[1], Nsigma)
     pdf = zeros(len(zfine))
-    for k in xrange(len(index)):
+    for k in range(len(index)):
         i = index[k] / Nsigma
         j = index[k] % Nsigma
         pdft = 1. * exp(-((zfine - zmid[i]) ** 2) / (2. * sig[j] * sig[j]))
@@ -116,7 +116,7 @@ def reconstruct_pdf_f(index, vals, zfine, mu, Nmu, sigma, Nsigma):
 
     def f(x):
         ft = 0.
-        for k in xrange(len(index)):
+        for k in range(len(index)):
             i = index[k] / Nsigma
             j = index[k] % Nsigma
             pdft = 1. * exp(-((zfine - zmid[i]) ** 2) / (2. * sig[j] * sig[j]))
@@ -150,8 +150,8 @@ def create_gaussian_dict(zfine, mu, Nmu, sigma, Nsigma, cut=1.e-5):
     Npdf = len(zfine)
     A = zeros((Npdf, Nmu * Nsigma))
     k = 0
-    for i in xrange(Nmu):
-        for j in xrange(Nsigma):
+    for i in range(Nmu):
+        for j in range(Nsigma):
             pdft = 1. * exp(-((zfine - zmid[i]) ** 2) / (2. * sig[j] * sig[j]))
             pdft = where(pdft >= cut, pdft, 0.)
             #pdft = where(greater(pdft, max(pdft) * 0.005), pdft, 0.)
@@ -184,9 +184,9 @@ def create_voigt_dict(zfine, mu, Nmu, sigma, Nsigma, Nv, cut=1.e-5):
     Npdf = len(zfine)
     A = zeros((Npdf, NA))
     kk = 0
-    for i in xrange(Nmu):
-        for j in xrange(Nsigma):
-            for k in xrange(Nv):
+    for i in range(Nmu):
+        for j in range(Nsigma):
+            for k in range(Nv):
                 #pdft = 1. * exp(-((zfine - zmid[i]) ** 2) / (2.*sig[j]*sig[j]))
                 pdft = voigt(zfine, zmid[i], sig[j], sig[j] * gamma[k])
                 pdft = where(pdft >= cut, pdft, 0.)
@@ -217,7 +217,7 @@ def reconstruct_pdf_v(index, vals, zfine, mu, Nmu, sigma, Nsigma, Nv, cut=1.e-5)
     sig = linspace(sigma[0], sigma[1], Nsigma)
     gamma = linspace(0, 0.5, Nv)
     pdf = zeros(len(zfine))
-    for kk in xrange(len(index)):
+    for kk in range(len(index)):
         i = index[kk] / (Nsigma * Nv)
         j = (index[kk] % (Nsigma * Nv)) / Nv
         k = (index[kk] % (Nsigma * Nv)) % Nv
@@ -253,7 +253,7 @@ def reconstruct_pdf_int(long_index, header, cut=1.e-5):
 
     VALS = linspace(0, 1, Ncoef)
     dVals = VALS[1] - VALS[0]
-    sp_ind = array(map(get_N, long_index))
+    sp_ind = array(list(map(get_N, long_index)))
     spi = sp_ind[:, 0]
     Dind2 = sp_ind[:, 1]
     vals = spi * dVals
@@ -302,7 +302,7 @@ def get_npeaks(z, pdf):
     local_in = []
     w = where(pdf > 0)[0] #non zeros values
     local_min.append(w[0]) #first non zero value
-    for i in xrange(w[0], len(pdf) - 1):
+    for i in range(w[0], len(pdf) - 1):
         dy = pdf[i + 1] - pdf[i]
         #if sign(dy)==sign(1) and curr==sign(1) and abs(dy) > 0. and abs(dy) < 1.e-4: local_in.append(i)
         #if sign(dy)==sign(-1) and curr==sign(-1) and abs(dy) > 0. and abs(dy) < 1.e-4: local_in.append(i)
@@ -326,13 +326,13 @@ def initial_guess(z, pdf):
     t0 = []
     w = where(pdf > 0)[0]  #non zeros values
     range_z = max(z[w]) - min(z[w])
-    for j in xrange(N_gauss):
+    for j in range(N_gauss):
         t0.append(pdf[local_max[j]])
         t0.append(z[local_max[j]])
         sigma_approx = (z[local_min[j + 1]] - z[local_min[j]]) / 4.
         t0.append(sigma_approx)
     if len(local_in) > 0:
-        for j in xrange(len(local_in)):
+        for j in range(len(local_in)):
             t0.append(pdf[local_in[j]])
             t0.append(z[local_in[j]])
             sigma_approx = (z[1] - z[0]) * 5.
@@ -355,7 +355,7 @@ def multi_gauss(P, x):
     """
     Ng = int(len(P) / 3)
     p1 = zeros(len(x))
-    for i in xrange(Ng):
+    for i in range(Ng):
         p1 += abs(P[0 + i * 3]) * exp(-(x - P[1 + i * 3]) ** 2 / (2. * P[2 + i * 3] * P[2 + i * 3]))
     return p1
 

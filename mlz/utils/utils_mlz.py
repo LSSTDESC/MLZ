@@ -87,13 +87,13 @@ def read_dt_pars(filein, verbose=True, myrank=0):
             self.all_values = []
             self.sortname = pars_dict['sname']
             self.tofloat = pars_dict['tofloat']
-            for k in pars_dict.keys():
+            for k in list(pars_dict.keys()):
                 if k == 'sname': continue
                 if k == 'tofloat': continue
                 com = 'self.' + k + ' = pars_dict[k]'
                 self.all_names.append(k)
                 self.all_values.append(pars_dict[k])
-                exec com
+                exec(com)
             self.format2 = 'no'
             self.output_names()
             #self.sigmafactor = self.sigmafactor
@@ -105,7 +105,7 @@ def read_dt_pars(filein, verbose=True, myrank=0):
 
         def print_all(self):
             for name in self.all_names:
-                print '.' + name
+                print('.' + name)
             self.path_results = ''
 
     DT_p = parameters(DTpars)
@@ -142,12 +142,12 @@ def printpz(*args, **kwargs):
     blue = False
     yellow = False
     purple = False
-    if kwargs.has_key('verb'): verb = kwargs['verb']
-    if kwargs.has_key('red'): red = kwargs['red']
-    if kwargs.has_key('green'): green = kwargs['green']
-    if kwargs.has_key('blue'): blue = kwargs['blue']
-    if kwargs.has_key('yellow'): yellow = kwargs['yellow']
-    if kwargs.has_key('purple'): purple = kwargs['purple']
+    if 'verb' in kwargs: verb = kwargs['verb']
+    if 'red' in kwargs: red = kwargs['red']
+    if 'green' in kwargs: green = kwargs['green']
+    if 'blue' in kwargs: blue = kwargs['blue']
+    if 'yellow' in kwargs: yellow = kwargs['yellow']
+    if 'purple' in kwargs: purple = kwargs['purple']
     if len(args) == 0:
         pass
     else:
@@ -155,17 +155,17 @@ def printpz(*args, **kwargs):
             title += str(stt)
     if verb:
         if red:
-            print tcolor.red + title + tcolor.off
+            print(tcolor.red + title + tcolor.off)
         elif green:
-            print tcolor.green + title + tcolor.off
+            print(tcolor.green + title + tcolor.off)
         elif blue:
-            print tcolor.blue + title + tcolor.off
+            print(tcolor.blue + title + tcolor.off)
         elif yellow:
-            print tcolor.yellow + title + tcolor.off
+            print(tcolor.yellow + title + tcolor.off)
         elif purple:
-            print tcolor.purple + title + tcolor.off
+            print(tcolor.purple + title + tcolor.off)
         else:
-            print title
+            print(title)
 
 
 def printpz_err(*args):
@@ -178,7 +178,7 @@ def printpz_err(*args):
     printpz()
     printpz('Exiting program')
     printpz()
-    print
+    print()
 
 
 def percentile(Nvals, percent):
@@ -235,7 +235,7 @@ class bias:
         self.frac3 = numpy.zeros(len(zmid))
         top = self.name + ' : %d galaxies' % len(zs)
         if verb: printpz(top)
-        for i in xrange(len(zmid)):
+        for i in range(len(zmid)):
             if mode == 0: wt = numpy.where((zs >= zbins[i]) & (zs < zbins[i + 1]))
             if mode == 1: wt = numpy.where((zb >= zbins[i]) & (zb < zbins[i + 1]))
             deltaz = d_z(zb, zs)
@@ -272,7 +272,7 @@ class conf:
         self.bins = zmid
         self.zC = numpy.zeros(len(zmid))
         self.zC_e = numpy.zeros(len(zmid))
-        for i in xrange(len(zmid)):
+        for i in range(len(zmid)):
             wt = numpy.where((zb >= zbins[i]) & (zb < zbins[i + 1]))
             if numpy.shape(wt)[1] == 0: continue
             self.zC[i] = numpy.mean(zconf[wt])
@@ -291,7 +291,7 @@ def zconf_dist(conf, nbins):
     bins = numpy.linspace(0., 1, nbins)
     s_conf = numpy.sort(conf)
     z_conf = numpy.zeros(len(bins))
-    for i in xrange(len(bins)):
+    for i in range(len(bins)):
         z_conf[i] = percentile(s_conf, bins[i])
     return z_conf, bins
 
@@ -404,7 +404,7 @@ def get_probs(z, pdf, z1, z2):
     dz = 0.001
     Ndz = int((z2 - z1) / dz)
     A = 0
-    for i in xrange(Ndz):
+    for i in range(Ndz):
         A += dz * PP((z1) + dz / 2. + dz * i)
     return A / dzo
 
@@ -416,8 +416,8 @@ def get_prob_Nz(z, pdf, zbins):
     dz = 0.001
     Ndz = int((zbins[1] - zbins[0]) / dz)
     Nzt = numpy.zeros(len(zbins) - 1)
-    for j in xrange(len(Nzt)):
-        for i in xrange(Ndz):
+    for j in range(len(Nzt)):
+        for i in range(Ndz):
             Nzt[j] += dz * PP((zbins[j]) + dz / 2. + dz * i)
     return Nzt / dzo
 
@@ -543,9 +543,9 @@ def get_limits(ntot, Nproc, rank):
     :rtype: int, int
     """
     jpproc = numpy.zeros(Nproc) + int(ntot / Nproc)
-    for i in xrange(Nproc):
+    for i in range(Nproc):
         if (i < ntot % Nproc): jpproc[i] += 1
-    jpproc = map(int, jpproc)
+    jpproc = list(map(int, jpproc))
     st = rank
     st = sum(jpproc[:rank]) - 1
     s0 = int(st + 1)
@@ -555,7 +555,7 @@ def get_limits(ntot, Nproc, rank):
 
 def print_welcome():
     bla = os.system('clear')
-    print
+    print()
     printpz('''------------------------------------------------''', blue=True)
     printpz('''|      ____    ____    _____      ________     |''', blue=True)
     printpz('''|     |_   \  /   _|  |_   _|    |  __   _|    |''', blue=True)

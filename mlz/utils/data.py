@@ -7,7 +7,7 @@ import numpy
 import pyfits as pf
 import random
 import copy
-import utils_mlz
+from . import utils_mlz
 import sys
 
 
@@ -52,7 +52,7 @@ def read_catalog(filename, myrank=0, check='no', get_ng='no', L_1=0, L_2=-1, A_T
         if A_T != '':
             col_index = []
             klist = []
-            for k in A_T.keys():
+            for k in list(A_T.keys()):
                 if A_T[k]['ind'] >= 0:
                     col_index.append(A_T[k]['ind'])
                     klist.append(k)
@@ -103,10 +103,10 @@ def create_random_realizations(AT, F, N, keyatt):
     """
     BigCat = {}
     total = len(F)
-    for key in AT.keys():
+    for key in list(AT.keys()):
         if (key != keyatt): BigCat[key] = numpy.zeros((total, N))
-    for i in xrange(total):
-        for k in BigCat.keys():
+    for i in range(total):
+        for k in list(BigCat.keys()):
             sigg = F[i][AT[k]['eind']]
             sigg = max(0.001, sigg)
             sigg = min(sigg, 0.3)
@@ -137,7 +137,7 @@ def make_AT(cols, attributes, keyatt):
         w = numpy.where(cols == nc)
         AT[nc] = {'type': 'real'}
     AT[keyatt] = {'type': 'real'}
-    for c in AT.keys():
+    for c in list(AT.keys()):
         j = numpy.where(cols == c)[0]
         ej = numpy.where(cols == 'e' + c)[0]
         if len(ej) == 0: ej = numpy.array([-1])
@@ -157,7 +157,7 @@ def bootstrap_index(N, SS):
     :rtype: int array
     """
     index = []
-    for i in xrange(N):
+    for i in range(N):
         index.append(random.randint(0, SS - 1))
     return numpy.array(index)
     # return stat.randint.rvs(0,SS,size=N)
@@ -277,7 +277,7 @@ class catalog():
     def newcat(self, i):
         self.cat = copy.deepcopy(self.cat_or)
         if i > 0:
-            for k in self.AT.keys():
+            for k in list(self.AT.keys()):
                 if k != self.Pars.keyatt: self.cat[:, self.AT[k]['ind']] = self.BigRan[k][:, i]
 
     def oob_data(self, frac=0.):
@@ -285,10 +285,10 @@ class catalog():
         Creates oob data and separates it from the no-oob data for further tests
         :param float frac: Fraction of the data to be separated, taken from class Pars (default is 1/3)
         """
-        if not self.has_X() or not self.has_Y(): print 'ERROR2'
+        if not self.has_X() or not self.has_Y(): print('ERROR2')
         if frac == 0.: frac = self.Pars.oobfraction
         self.noob = int(self.nobj * frac)
-        self.oob_index = random.sample(xrange(self.nobj), self.noob)
+        self.oob_index = random.sample(range(self.nobj), self.noob)
         index_all = numpy.arange(self.nobj)
         index_all[self.oob_index] = -1
         woob = numpy.where(index_all >= 0)[0]
@@ -304,7 +304,7 @@ class catalog():
         self.cat = copy.deepcopy(self.cat_or)
         if frac == 0.: frac = self.Pars.oobfraction
         self.noob = int(self.nobj * frac)
-        self.oob_index = random.sample(xrange(self.nobj), self.noob)
+        self.oob_index = random.sample(range(self.nobj), self.noob)
         index_all = numpy.arange(self.nobj)
         index_all[self.oob_index] = -1
         woob = numpy.where(index_all >= 0)[0]

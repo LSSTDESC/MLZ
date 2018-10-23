@@ -4,7 +4,7 @@
 """
 __author__ = 'Matias Carrasco Kind'
 from numpy import *
-import utils_mlz
+from . import utils_mlz
 import os, sys
 from scipy.stats import mode
 import pyfits as pf
@@ -59,14 +59,14 @@ class GetPz():
         self.zConf1 = zeros(self.nD)
 
     def compute(self, do_pdf='yes'):
-        for i in xrange(self.nD):
+        for i in range(self.nD):
             self.bigpdf = zeros(len(self.zbins))
-            if self.dict_zp.has_key(i):
+            if i in self.dict_zp:
                 out = array(self.dict_zp[i]['zp'])
                 #wout=array(self.dict_zp[i]['wp'])
-                if self.dict_zp[i].has_key('zs'): self.zs[i] = self.dict_zp[i]['zs']
+                if 'zs' in self.dict_zp[i]: self.zs[i] = self.dict_zp[i]['zs']
                 if self.Pars.predictionclass == 'Reg':
-                    for zpi in xrange(len(out)):
+                    for zpi in range(len(out)):
                         mybin = int(floor(out[zpi] / self.resz))
                         if mybin > self.Nbins - 1: continue
                         self.bigpdf[mybin] += 1.
@@ -141,7 +141,7 @@ class GetPz_short():
         self.bigpdf = zeros(len(self.zbins))
         out = array(vals)
         if self.Pars.predictionclass == 'Reg':
-            for zpi in xrange(len(out)):
+            for zpi in range(len(out)):
                 mybin = int(floor(out[zpi] / self.resz))
                 if mybin > self.Nbins - 1: continue
                 self.bigpdf[mybin] += 1
@@ -203,7 +203,7 @@ def save_single(Zall, Pars, path='', fileout='', oob='no', var=''):
     if not os.path.exists(path): os.system('mkdir -p ' + path)
     if fileout == '':
         filebase = Pars.finalfilename
-        for j in xrange(100):
+        for j in range(100):
             if os.path.exists(path + filebase + '.' + str(j) + '.mlz'):
                 continue
             else:
@@ -221,7 +221,7 @@ def save_single(Zall, Pars, path='', fileout='', oob='no', var=''):
     fout = open(fileout, 'w')
     header = '# ztrue     zmode0    zmean1     zConf0    zConf1    err0    err1\n'
     fout.write(header)
-    for i in xrange(len(zs0)):
+    for i in range(len(zs0)):
         Line = '{0:.4f} {1:.4f} {2:.4f} {3:.4f} {4:.4f} {5:.4f} {6:.4f}'.format(ztrue[i], zs0[i], zs1[i], zC0[i],
                                                                                 zC1[i], e0[i], e1[i])
         fout.write(Line + '\n')
@@ -232,7 +232,7 @@ def get_path_new(Pars):
     path = Pars.path_results
     if not os.path.exists(path): os.system('mkdir -p ' + path)
     filebase = Pars.finalfilename
-    for j in xrange(100):
+    for j in range(100):
         if os.path.exists(path + filebase + '.' + str(j) + '.mlz'):
             continue
         else:
@@ -251,7 +251,7 @@ def save_PDF(zfine, pdfs, Pars, path='', filebase='', num=-1, oob='no', var='', 
     if filebase == '':
         filebase = Pars.finalfilename
     if num == -1:
-        for j in xrange(100):
+        for j in range(100):
             if os.path.exists(path + filebase + '.' + str(j) + '.mlz') and os.path.exists(
                                                     path + filebase + '.' + str(j) + '.P.npy'):
                 continue
@@ -295,7 +295,7 @@ def save_PDF_sparse(zfine, pdfs, head, Pars, path='', filebase='', num=-1, oob='
     if filebase == '':
         filebase = Pars.finalfilename
     if num == -1:
-        for j in xrange(100):
+        for j in range(100):
             if os.path.exists(path + filebase + '.' + str(j) + '.mlz') and os.path.exists(
                                                     path + filebase + '.' + str(j) + '.P.npy'):
                 continue
@@ -328,7 +328,7 @@ def save_single_t(Zall, Pars, path='', fileout='', oob='no', var=''):
     if path == '': path = Pars.path_results
     if not os.path.exists(path): os.system('mkdir -p ' + path)
     if fileout == '': filebase = Pars.finalfilename
-    for j in xrange(100):
+    for j in range(100):
         if os.path.exists(path + filebase + '.' + str(j) + '.mlz'):
             continue
         else:
@@ -337,7 +337,7 @@ def save_single_t(Zall, Pars, path='', fileout='', oob='no', var=''):
     fout = open(fileout, 'w')
     header = '# type_phot    type_ml\n'
     fout.write(header)
-    for i in xrange(len(type_phot)):
+    for i in range(len(type_phot)):
         Line = '{0:.4f} {1:.4f}'.format(type_phot[i], type_ml[i])
         fout.write(Line + '\n')
     fout.close()
