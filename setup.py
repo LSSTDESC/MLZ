@@ -8,10 +8,10 @@ libraries = []
 library_dirs = []
 include_dirs = ['mlz/ml_codes']
 setup(
-    name='MLZ',
+    name='MLZ-DESC',
     version='1.2',
-    author='Matias Carrasco Kind',
-    author_email='mcarras2@illinois.edu',
+    author='Matias Carrasco Kind (original), Bela Abolfathi (DESC)',
+    author_email='babolfat@uci.edu',
     ext_modules=[Extension('somF', files_f90, include_dirs=['mlz/ml_codes'], ), ],
     packages=['mlz', 'mlz.plot', 'mlz.utils', 'mlz.test', 'mlz.ml_codes'],
     py_modules=['mlz','mlz.plot','mlz.utils','mlz.test','mlz.ml_codes'],
@@ -22,5 +22,5 @@ setup(
     description='MLZ: Machine Learning for photo-Z, a photometric redshift PDF estimator',
     long_description=open('README.txt').read(),
     url='http://lcdm.astro.illinois.edu/static/code/mlz/MLZ-1.2/doc/html/index.html',
-    install_requires=['mpi4py', 'numpy', 'matplotlib', 'healpy', 'scipy', 'pyfits'],
+    install_requires=['mpi4py', 'numpy', 'matplotlib', 'healpy', 'scipy', 'astropy'],
 )
