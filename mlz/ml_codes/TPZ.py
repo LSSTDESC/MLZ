@@ -201,7 +201,7 @@ class Ctree():
             if forest == 'no':
                 myD = all_D
             if forest == 'yes':
-                myD = rn.sample(all_D, mstar)
+                myD = rn.sample(list(all_D), mstar)
             if len(unique(YD)) == 1: return YD
             #if len(unique(XD[:,0]))==1: return YD
             td, sp, tvar = best_split_class(XD[:, myD], YD, minleaf, impurity, nclass)
@@ -394,7 +394,7 @@ class Rtree():
             if forest == 'no':
                 myD = all_D
             if forest == 'yes':
-                myD = rn.sample(all_D, mstar)
+                myD = rn.sample(list(all_D), mstar)
             if len(unique(YD)) == 1: return YD
             td, sp, tvar = best_split(XD[:, myD], YD, minleaf)
             if td == -1: return YD
